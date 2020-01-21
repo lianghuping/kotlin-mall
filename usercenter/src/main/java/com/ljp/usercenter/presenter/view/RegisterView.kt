@@ -4,5 +4,6 @@ import com.ljp.baselibrary.presenter.view.BaseView
 
 interface RegisterView :BaseView {
 
-    fun onRegister()
+    fun onRegister(result:String)
 }
+

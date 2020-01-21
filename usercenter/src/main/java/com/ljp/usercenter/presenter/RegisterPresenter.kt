@@ -5,25 +5,26 @@ import com.ljp.baselibrary.presenter.BasePresenter
 import com.ljp.baselibrary.rx.BaseObserver
 import com.ljp.usercenter.presenter.view.RegisterView
 import com.ljp.usercenter.service.impl.RegisterService
+import javax.inject.Inject
 
-class RegisterPresenter(registerView: RegisterView) : BasePresenter<RegisterView>() {
+class RegisterPresenter @Inject constructor() : BasePresenter<RegisterView>() {
 
-    val mRegisterService: RegisterService
-
-    val mRegisterView: RegisterView
-
-    init {
-        mRegisterView = registerView
-        mRegisterService = RegisterService()
-    }
+    @Inject
+    lateinit var mRegisterService: RegisterService
 
     fun register(mobile: String, verify: String, pwd: String) {
 
-        mRegisterService.register(mobile, verify, pwd).execute(object : BaseObserver<Boolean>() {
+        mBaseView.showLoading()
+
+        mRegisterService.register(mobile, verify, pwd).execute(object : BaseObserver<Boolean>(mBaseView) {
             override fun onNext(t: Boolean) {
                 super.onNext(t)
-                mRegisterView.onRegister()
+                if (t)
+                    mBaseView.onRegister("注册成功")
+                else {
+                    mBaseView.onRegister("注册失败")
+                }
             }
-        })
+        }, mLifecycleProvider)
     }
 }

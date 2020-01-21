@@ -1,13 +1,12 @@
 package com.ljp.baselibrary.rx
 
-import io.reactivex.Observable
+import com.ljp.baselibrary.presenter.view.BaseView
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 
-open class BaseObserver<T> : Observer<T> {
+open class BaseObserver<T>(val mLoadingView:BaseView) : Observer<T> {
     override fun onComplete() {
+        mLoadingView.hideLoading()
     }
 
     override fun onSubscribe(d: Disposable) {
@@ -17,6 +16,7 @@ open class BaseObserver<T> : Observer<T> {
     }
 
     override fun onError(e: Throwable) {
+        mLoadingView.hideLoading()
     }
 
 }

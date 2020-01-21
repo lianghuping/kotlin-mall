@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
 
@@ -14,7 +15,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-
+    kotlinOptions { jvmTarget = 1.8}
     buildTypes {
         release {
             minifyEnabled false
@@ -32,11 +33,26 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //retrofit
     implementation("io.reactivex.rxjava2:rxkotlin:$rxkotlin_version")
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation("com.squareup.okhttp3:okhttp:4.2.2")
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
+
+    api 'com.trello.rxlifecycle3:rxlifecycle:3.1.0'
+    // If you want to use Kotlin syntax
+    api 'com.trello.rxlifecycle3:rxlifecycle-kotlin:3.1.0'
+
+// If you want to use Kotlin syntax with Android Lifecycle
+    api 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:3.1.0'
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.1.0'
+    //Dagger2
+    api "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }

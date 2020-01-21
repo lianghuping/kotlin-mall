@@ -5,6 +5,8 @@ if (isUserModule.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
 
@@ -19,12 +21,22 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    kapt {
+        generateStubs = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    kotlinOptions { jvmTarget = 1.8}
 
     sourceSets {
         main {
@@ -58,5 +70,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
     implementation("io.reactivex.rxjava2:rxkotlin:$rxkotlin_version")
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+
     implementation project(path: ':baselibrary')
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
 }
